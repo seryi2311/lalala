@@ -19,13 +19,12 @@ public class FirstTest extends WebDriverSettings {
         driver.get("https://mail.ru/");
             WebElement signIn = driver.findElement(By.name("login"));
             signIn.sendKeys("siil1312");
-            driver.findElement(By.cssSelector("[value=\"Ввести пароль\"]")).click();
+            driver.findElement(By.className("icon-next")).click();
 
             WebDriverWait wait = new WebDriverWait(driver,15);
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("password")));
             driver.findElement(By.name("password")).sendKeys("1312hsva");
-            driver.findElement(By.cssSelector("[value=\"Ввести пароль\"]")).click();
-            driver.findElement(By.cssSelector("[value=\"Ввести пароль\"]")).click();
+            driver.findElement(By.className("second-button")).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("button2__txt")));
             driver.findElement(By.className("button2__txt"));
     }

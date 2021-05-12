@@ -39,6 +39,7 @@ public class FirstTest extends WebDriverSettings {
     @Test
 
     public void test() throws InterruptedException {
+        driver.manage().window().maximize();
         driver.get("https://spb.hh.ru/account/login");
         WebElement vk = driver.findElement(By.cssSelector("a[data-qa=\"account-login-social-vk\"]"));
         vk.click();
@@ -46,30 +47,38 @@ public class FirstTest extends WebDriverSettings {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("pass")));
         WebElement login = driver.findElement(By.name("email"));
         WebElement password = driver.findElement(By.name("pass"));
-        login.sendKeys("seryi2311@gmail.com");
-        password.sendKeys("1312hSva");
+        login.sendKeys("");
+        password.sendKeys("");
         WebElement button = driver.findElement(By.id("install_allow"));
         button.click();
         WebElement myResume = driver.findElement(By.cssSelector("a[data-qa=\"mainmenu_myResumes\"]"));
         myResume.click();
         Thread.sleep(1000);
-        WebElement vacancies = driver.findElement(By.cssSelector("a[href=\"/search/vacancy?resume=7d444026ff089253b10039ed1f6467466b6953&from=resumelist\"]"));
+        WebElement vacancies = driver.findElement(By.cssSelector("a[href=\"/search/vacancy?resume=d049af5dff034464a10039ed1f513878735066&from=resumelist\"]"));
         vacancies.click();
         Thread.sleep(2000);
         while (true){
-            List<WebElement> next = driver.findElements(By.className("HH-Pager-Controls-Next"));
+            List<WebElement> next = driver.findElements(By.cssSelector("a[data-qa=\"pager-next\"]"));
             if(next.size()!=0) {
-                List<WebElement> allVacancies = driver.findElements(By.className("HH-VacancyResponsePopup-Link"));
+                List<WebElement> allVacancies = driver.findElements(By.cssSelector("a[data-qa=\"vacancy-serp__vacancy_response\"]"));
                 for (WebElement elem : allVacancies) {
                     elem.click();
-                    driver.getPageSource();
+                    //driver.getPageSource();
                     Thread.sleep(1000);
-                    WebElement otkl = driver.findElement(By.cssSelector("button[data-qa=\"vacancy-response-submit-popup\"]"));
-                    otkl.click();
-                    Thread.sleep(2000);
+                    List<WebElement> textArea = driver.findElements(By.cssSelector("textarea[maxlength=\"10000\"]"));
+                    if (textArea.size()>0) {
+                        System.out.println("I here");
+                        WebElement close = driver.findElement(By.className("bloko-modal-close-button"));
+                        close.click();
+                        Thread.sleep(1000);
+                    } else {
+                        WebElement otkl = driver.findElement(By.xpath("//span[text()='Откликнуться']"));
+                        otkl.click();
+                        Thread.sleep(2000);
+                    }
                     //wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("HH-VacancyResponsePopup-Link")));
                 }
-                WebElement next1 = driver.findElement(By.className("HH-Pager-Controls-Next"));
+                WebElement next1 = driver.findElement(By.cssSelector("a[data-qa=\"pager-next\"]"));
                 next1.click();
             }else {
                 break;
